@@ -1,6 +1,6 @@
-from historico import Historico
-from conta import Conta
-from pessoa import Pessoa
+from models.historico import Historico
+from models.conta import Conta
+from models.pessoa import Pessoa
 from iterators.correntista import Correntista as IteratorCorrentista
 
 

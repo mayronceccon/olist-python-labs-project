@@ -1,5 +1,5 @@
-from deposito import Deposito
-from saque import Saque
+from models.deposito import Deposito
+from models.saque import Saque
 
 
 class Conta:
