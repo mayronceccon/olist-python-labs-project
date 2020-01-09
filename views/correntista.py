@@ -10,43 +10,54 @@ class Correntista:
         self.__saldo = None
 
     def cadastrar(self):
-        try:
-            self.__mensagem.titulo("Cadastrar novo Correntista")
+        self.__mensagem.print()
 
+        try:
             if not self.__nome:
                 self.__nome = str(input("NOME: "))
 
             if not self.__saldo:
                 self.__saldo = float(input("SALDO: R$ "))
 
-            self.__mensagem.titulo("Cadastro realizado com sucesso!")
             correntista = CorrentistaModel(
                 self.__nome,
                 self.__saldo
             )
 
-            self.__mensagem.sucesso(
-                "Correntista {0} cadastrado com sucesso".format(self.__nome)
+            self.__mensagem.mensagens(
+                sucesso="Correntista {0} cadastrado com sucesso".format(
+                    self.__nome
+                ),
+                info="Você será redirecionado para tela inicial. Aguarde..."
             )
-
-            self.__mensagem.info(
-                "\nAguarde, você será direcionado para a tela inicial...\n"
-            )
-            time.sleep(5)
+            self.__mensagem.print()
+            time.sleep(2)
             return correntista
         except ValueError:
-            self.__mensagem.titulo("Erro na operação de cadastro!")
-            self.__mensagem.alerta("Preencha novamente o dado inválido!")
+            self.__mensagem.mensagens(
+                alerta="Preencha novamente o dado corretamente!"
+            )
             return self.cadastrar()
         except Exception:
-            self.__mensagem.titulo("Erro na operação de cadastro!")
-            self.__mensagem.alerta("Tente novamente em alguns instantes!")
+            self.__mensagem.mensagens(
+                alerta="Tente novamente em alguns instantes!"
+            )
+            return self.cadastrar()
 
     def selecionar(self, correntistas):
-        self.__mensagem.titulo("Busca de correntistas")
+        self.__mensagem.mensagens(
+            titulo="Selecionar Correntista"
+        )
+        self.__mensagem.print()
 
-        for (id, correntista) in enumerate(correntistas):
-            print("{0} - {1}".format(id, correntista.nome()))
+        try:
+            for (id, correntista) in enumerate(correntistas):
+                print("{0} - {1}".format(id, correntista.nome()))
 
-        opcao = int(input())
-        return correntistas[opcao]
+            opcao = int(input())
+            return correntistas[opcao]
+        except (ValueError, IndexError):
+            self.__mensagem.mensagens(
+                alerta="Erro ao selecionar o correntista!"
+            )
+            return self.selecionar(correntistas)

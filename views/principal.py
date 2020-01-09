@@ -1,5 +1,6 @@
 from models.mensagem import Mensagem
 from views.correntista import Correntista as CorrentistaView
+from views.historico import Historico as HistoricoView
 from models.correntista import Correntista as CorrentistaModel
 
 
@@ -8,8 +9,17 @@ class Principal:
         self.__mensagem = Mensagem()
         self.__correntista = None
         self.__correntistas = []
+        self.__titulo = None
+        self.__alerta = None
+        self.__sucesso = None
+
+        self.__mensagem.mensagens(
+            titulo="Sistema Bancário"
+        )
 
     def inicial(self):
+        self.__mensagem.print()
+
         try:
             messagem = (
                 "Escolha uma opção abaixo:\n"
@@ -33,21 +43,27 @@ class Principal:
 
             if opcao == 2:
                 if not self.__correntistas:
-                    self.__mensagem.alerta(
-                        "Nenhum correntista encontrado! Faça o cadastro!"
+                    self.__mensagem.mensagens(
+                        alerta="Nenhum correntista encontrado! Faça o cadastro!"
                     )
-                    self.inicial()
+                    return self.inicial()
                 self.__correntista = CorrentistaView().selecionar(
                     self.__correntistas
                 )
+                self.__mensagem.mensagens(
+                    titulo="Área do cliente",
+                    sucesso="Correntista selecionado..."
+                )
                 return self.dashboard()
-
         except ValueError:
-            self.__mensagem.titulo("ERRO NA OPERAÇÃO")
-            self.__mensagem.alerta("Opção inválida! Informe uma opção válida!")
+            self.__mensagem.mensagens(
+                alerta="Opção inválida! Informe uma opção válida!"
+            )
             return self.inicial()
 
     def dashboard(self):
+        self.__mensagem.print()
+
         try:
             messagem = (
                 "Correntista: {0}\n".format(self.__correntista.nome()) +
@@ -74,25 +90,35 @@ class Principal:
             if opcao == 1:
                 valor_deposito = float(input("Informe o valor do depósito: R$ "))
                 self.__correntista.depositar(valor_deposito)
+
+                mensagem = "Depósito de R$ {0} efetuado com sucesso".format(valor_deposito)
+                self.__mensagem.mensagens(
+                    sucesso=mensagem
+                )
                 return self.dashboard()
 
             if opcao == 2:
                 valor_saque = float(input("Informe o valor do saque: R$ "))
                 self.__correntista.sacar(valor_saque)
+                mensagem = "Saque de R$ {0} efetuado com sucesso".format(valor_saque)
+                self.__mensagem.mensagens(
+                    sucesso=mensagem
+                )
                 return self.dashboard()
 
             if opcao == 3:
-                self.__mensagem.titulo("Histórico")
-                for hist in self.__correntista:
-                    print(hist)
+                historico = HistoricoView(self.__correntista)
+                historico.relatorio()
                 return self.dashboard()
-
         except ValueError:
-            self.__mensagem.titulo("ERRO NA OPERAÇÃO")
-            self.__mensagem.alerta("Opção inválida! Informe uma opção válida!")
+            self.__mensagem.mensagens(
+                alerta="Opção inválida! Informe uma opção válida!"
+            )
             return self.dashboard()
 
     def __sair(self):
-        self.__mensagem.titulo("SAINDO")
-        self.__mensagem.alerta("Obrigado por utilizar nosso sistema!")
+        self.__mensagem.mensagens(
+            sucesso="Saindo... Obrigado por utilizar nosso sistema!"
+        )
+        self.__mensagem.print()
         exit(0)

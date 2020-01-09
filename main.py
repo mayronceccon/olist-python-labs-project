@@ -12,7 +12,6 @@ def sair():
 
 if __name__ == '__main__':
     try:
-        mensagem.titulo("SISTEMA BANCÁRIO")
         principal = PrincipalView()
         principal.inicial()
     except Exception:
