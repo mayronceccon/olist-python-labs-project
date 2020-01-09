@@ -22,9 +22,9 @@ class Historico:
 
         historico_correntista = self.__correntista
 
-        tamanho_mensagem = sorted([len(l.mensagem) for l in historico_correntista], reverse=True)[0]
-        tamanho_valor = sorted([len(str(format(float(l.valor), '.2f'))) for l in historico_correntista], reverse=True)[0]
-        tamanho_saldo = sorted([len(str(format(float(l.saldo), '.2f'))) for l in historico_correntista], reverse=True)[0]
+        tamanho_mensagem = max([len(l.mensagem) for l in lista])
+        tamanho_valor = max([len(str(format(float(l.valor), '.2f'))) for l in lista])
+        tamanho_saldo = max([len(str(format(float(l.saldo), '.2f'))) for l in lista])
 
         print("\n")
         for hist in historico_correntista:
