@@ -11,11 +11,11 @@ def sair():
 
 
 if __name__ == '__main__':
-    try:
-        principal = PrincipalView()
-        principal.inicial()
-    except Exception:
-        mensagem.titulo("ERRO NA OPERAÇÃO")
-        mensagem.alerta("Um erro ocorreu entre em contato com nossa central!")
-    except KeyboardInterrupt:
-        sair()
+    principal = PrincipalView()
+    principal.inicial()
+    # try:
+    # except Exception:
+    #     mensagem.titulo("ERRO NA OPERAÇÃO")
+    #     mensagem.alerta("Um erro ocorreu entre em contato com nossa central!")
+    # except KeyboardInterrupt:
+    #     sair()

@@ -10,14 +10,17 @@ class Correntista:
         self.__saldo = None
 
     def cadastrar(self):
+        self.__mensagem.mensagens(
+            titulo="Cadastrar Correntista"
+        )
         self.__mensagem.print()
 
         try:
             if not self.__nome:
-                self.__nome = str(input("NOME: "))
+                self.__nome = str(input("Nome: "))
 
             if not self.__saldo:
-                self.__saldo = float(input("SALDO: R$ "))
+                self.__saldo = float(input("Depósito inicial: R$ "))
 
             correntista = CorrentistaModel(
                 self.__nome,
