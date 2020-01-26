@@ -4,9 +4,11 @@ from models.correntista import Correntista as CorrentistaModel
 
 
 class Correntista:
-    def __init__(self):
+    def __init__(self, registros_auditoria):
         self.__mensagem = Mensagem()
+        self.__registros_auditoria = registros_auditoria
         self.__nome = None
+        self.__cpf = None
         self.__saldo = None
 
     def cadastrar(self):
@@ -19,11 +21,16 @@ class Correntista:
             if not self.__nome:
                 self.__nome = str(input("Nome: "))
 
+            if not self.__cpf:
+                self.__cpf = str(input("Cpf: "))
+
             if not self.__saldo:
                 self.__saldo = float(input("Depósito inicial: R$ "))
 
             correntista = CorrentistaModel(
+                self.__registros_auditoria,
                 self.__nome,
+                self.__cpf,
                 self.__saldo
             )
 
